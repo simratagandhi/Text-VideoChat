@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+
+<!-- <script type="text/javascript" src="/js/date.js"></script> -->
+    <style>
+.top {
+list-style-type: none;
+margin: 0;
+padding: 0;
+/*height: 83%;*/
+/*background: url("images/msgBg.png");`*/
+/*background-size: cover;*/
+overflow: scroll;
+display: flex;
+flex-direction: column;
+}
+#accouncements {
+flex-grow: 1;
+overflow-y: auto;
+}
+
+#accouncements div {
+
+
+flex-shrink: 0;
+}
+.userLog {
+text-align: center;
+clear: both;
+display: inline-block;
+position: relative;
+/*color: white;*/
+/*font-weight: 900;*/
+/*font-size: 18px;*/
+padding: 10px;
+display: block;
+}
+.userLog:before,
+.userLog:after {
+content: "";
+position: absolute;
+height: 5px;
+border-bottom: 1px solid ;
+
+
+top: 16px;
+width: 42%;
+}
+.userLog:before {
+right: 70%;
+margin-right: 6px;
+}
+.userLog:after {
+left: 70%;
+margin-left: 6px;
+}
+.mymessage {
+min-width: 38%;
+border-radius: 8px;
+box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+padding: 3px 7px 0px 7px;
+margin-right: 8px;
+display: block;
+margin: 10px 10px 10px 10px;
+max-width: 60%;
+word-wrap: break-word;
+}
+.message {
+width:100%;
+float: left;
+padding:5px;
+background-color: #C5CBD1;
+position: relative;
+}
+.mymessage {
+float: right;
+background-color: #E8E8E8;
+position: relative;
+}
+.msg {
+display: block;
+margin-top: 8px;
+width: 100%;
+}
+.cmsg {
+padding-top: 3px;
+}
+.uid {
+float: left;
+font-size: 14px;
+position: relative;
+color: gray;
+top: -6px;
+}
+.mdate {
+float: right;
+font-size: 11px;
+position: relative;
+color: gray;
+top: -4px;
+
+}
+.message:before {
+content: "";
+display: inline-block;
+position: absolute;
+left: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-right: 8px solid #C5CBD1;
+}
+.mymessage:before {
+content: "";
+display: inline-block;
+position: absolute;
+right: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-left: 8px solid #E8E8E8;
+}
+div.loading {
+position: relative;
+/*background: url('/images/ajax-loader.gif') no-repeat center center;*/
+height: 20px;
+width: 20px;
+margin-left: 50%;
+}
+
+@media (max-width: 768px) {
+.column .padding {
+padding: 7px;
+}
+.full{
+padding-top:20px;
+}
+.navbar-blue {
+background-color:#3B5999;
+top:0;
+width:100%;
+position:relative;
+}
+}
+/*
+* off canvas sidebar
+* --------------------------------------------------
+*/
+@media screen and (max-width: 768px) {
+.row-offcanvas {
+position: relative;
+-webkit-transition: all 0.25s ease-out;
+-moz-transition: all 0.25s ease-out;
+transition: all 0.25s ease-out;
+}
+.row-offcanvas-left.active {
+left: 33%;
+}
+.row-offcanvas-left.active .sidebar-offcanvas {
+left: -30%;
+position: absolute;
+top: 0;
+width: 33%;
+margin-left: 5px;
+}
+#announceBox{
+padding-top: 5px;
+}
+#sidebar, #sidebar a, #sidebar-footer a {
+padding-left:12px;
+}
+}
+</style>
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-users"></i>&nbsp;&nbsp;Annoucement</h3>
+    </div>
+    <div class="panel-body ">
+        <div id="chatroom" class="row row-offcanvas row-offcanvas-left">
+             <div id="announcePage" class="column col-sm-10 col-xs-10 ">
+                <div class="panel panel-default top" id="announcements" style="height: 400px;"></div>
+                <form id="announceBox" class="bs-component">
+                    <div class="input-group">
+                        <input name="announceMessage" id="m" autofocus autocomplete="off" placeholder="Type here.." class="form-control" />
+                        
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn-primary  btn chatButton">Announce</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script type="text/javascript">
+    $('document').ready(function(){
+/*        $.ajaxSetup({
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('x-user-token', localStorage.getItem('mayday_token'));
+                xhr.setRequestHeader('x-user-lastLogin', localStorage.getItem('mayday_lastLogin'));
+            }
+        });
+*/
+        var lastLogin = localStorage.getItem('mayday_lastLogin');
+        $.post("/announcement/getHistory", {
+            lastLoginTime: lastLogin}, function(data){
+            for(i=0; i<data.length; i++){
+                admAnnouce = data[i].annon;
+                admName = data[i].user_id;
+                var msgDate = Date.parseExact(data[i].time_id,"yyyy-MM-dd HH:mm:ss");
+                var ts = msgDate.toString('HH:mm');
+                var announcement = '<div><div class="message"><stylepan class="msg">' + '<p>[ANNOUNCEMENT]: ' +admAnnouce + '</p></span><span class="uid" style="color: navbar-blue;">' + admName + '</span><span class="mdate">' + ts + '</span></div></div>';
+                $('#announcements').append(announcement);
+            }
+        });
+    });
+    var colorStack = {};
+    var lastMsgUid = "";
+    var signInMsg = 0;
+    var timeStamp = Date.today().set({
+                            second: 00,
+                            minute: 00,
+                            hour: 00,
+                            })  ;
+
+    $('#sendAnnoucement').prop("disabled", true);
+    $('#m').on("keyup", action);
+
+    function action() {
+        if ($('#m').val().length > 0) {
+            $('#sendAnnoucement').prop("disabled", false);
+        } else {
+            $('#sendAnnoucement').prop("disabled", true);
+        }
+    }
+
+    $('#announceBox').submit(function(event){
+        var admName = localStorage.getItem('mayday_userId');
+        var admAnnouce = $('#m').val()
+        event.preventDefault();
+        $.post("/announcement", {
+            uid: admName,
+            annon: admAnnouce, 
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss")
+        }, function(data){
+            socket.emit('realTimeAnnon', {
+            uid: data.uid,
+            msg: data.annon,
+            time_id: data.time_id
+             }); 
+        });
+                   
+        
+        var announcement = '<div><div class="message"><span class="msg">' + '<p>[ANNOUNCEMENT]: ' +admAnnouce + '</p></span><span class="uid" style="color: navbar-blue;">' + admName + '</span><span class="mdate">' + new Date().toString('HH:mm') + '</span></div></div>';
+
+        $('#announcements').append(announcement);
+        $('#m').val('');
+//        return false;
+    });
+
+
+
+</script>
+

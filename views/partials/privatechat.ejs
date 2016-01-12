@@ -1,0 +1,544 @@
+
+<style>
+.top {
+list-style-type: none;
+margin: 0;
+padding: 0;
+/*height: 83%;*/
+/*background: url("images/msgBg.png");`*/
+/*background-size: cover;*/
+overflow: scroll;
+display: flex;
+flex-direction: column;
+}
+#messages {
+flex-grow: 1;
+overflow-y: auto;
+}
+
+#messages div {
+
+
+flex-shrink: 0;
+}
+.userLog {
+text-align: center;
+clear: both;
+display: inline-block;
+position: relative;
+/*color: white;*/
+/*font-weight: 900;*/
+/*font-size: 18px;*/
+padding: 10px;
+display: block;
+}
+.userLog:before,
+.userLog:after {
+content: "";
+position: absolute;
+height: 5px;
+border-bottom: 1px solid ;
+
+
+top: 16px;
+width: 42%;
+}
+.userLog:before {
+right: 70%;
+margin-right: 6px;
+}
+.userLog:after {
+left: 70%;
+margin-left: 6px;
+}
+.message,
+.mymessage {
+min-width: 38%;
+border-radius: 8px;
+box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+padding: 3px 7px 0px 7px;
+margin-right: 8px;
+display: block;
+margin: 10px 10px 10px 10px;
+max-width: 60%;
+word-wrap: break-word;
+}
+.message {
+float: left;
+background-color: #C5CBD1;
+position: relative;
+}
+.mymessage {
+float: right;
+background-color: #E8E8E8;
+position: relative;
+}
+.msg {
+display: block;
+margin-top: 8px;
+width: 74%;
+}
+.cmsg {
+padding-top: 3px;
+}
+.mdate {
+float: right;
+
+
+font-size: 11px;
+position: relative;
+color: gray;
+top: -15px;
+
+}
+#sidebar ul li div{
+    color: inherit !important;
+    display: inline;
+}
+#sidebar ul li{
+    cursor:pointer;
+    min-width:30px;
+}
+.message:before {
+content: "";
+display: inline-block;
+position: absolute;
+left: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-right: 8px solid #C5CBD1;
+}
+.mymessage:before {
+content: "";
+display: inline-block;
+position: absolute;
+right: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-left: 8px solid #E8E8E8;
+}
+div.loading {
+position: relative;
+/*background: url('/images/ajax-loader.gif') no-repeat center center;*/
+height: 20px;
+width: 20px;
+margin-left: 50%;
+}
+
+@media (max-width: 768px) {
+.column .padding {
+padding: 7px;
+}
+.full{
+padding-top:20px;
+}
+.navbar-blue {
+background-color:#3B5999;
+top:0;
+width:100%;
+position:relative;
+}
+}
+/*
+* off canvas sidebar
+* --------------------------------------------------
+*/
+@media screen and (max-width: 768px) {
+.row-offcanvas {
+position: relative;
+-webkit-transition: all 0.25s ease-out;
+-moz-transition: all 0.25s ease-out;
+transition: all 0.25s ease-out;
+}
+.row-offcanvas-left.active {
+left: 33%;
+}
+.row-offcanvas-left.active .sidebar-offcanvas {
+left: -30%;
+position: absolute;
+top: 0;
+width: 33%;
+margin-left: 5px;
+}
+#chatBox{
+padding-top: 5px;
+}
+#sidebar, #sidebar a, #sidebar-footer a {
+padding-left:12px;
+}
+}
+
+.nav .receiver{
+    background-color: #ecf0f1;
+}
+</style>
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-user-secret"></i>&nbsp;&nbsp;Private Chat</h3>
+    </div>
+    <div class="panel-body ">
+        <div id="chatroom" class="row row-offcanvas row-offcanvas-left">
+            <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar" style="height: 450px;">
+                <ul class="nav">
+                    <li data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></li>
+                </ul>
+                <ul class="list-unstyled hidden-xs" id="sidebar-footer">
+                    <li style="color:green;">
+                        <h6><i class="fa fa-circle"></i>  Online &nbsp;<span class="online total"></span></h6>
+                    </li>
+                </ul>
+                <ul class="nav hidden-xs" id="lg-menu">
+                    
+                </ul>
+              <!-- tiny only nav-->
+                <ul class="nav visible-xs" id="xs-menu">
+                    
+                </ul>
+                <!-- <ul id="online_list" class="list-group">
+                </ul> -->
+            </div>
+            <div id="chatPage" class="column col-sm-10 col-xs-10 ">
+                <div class="panel panel-default top" id="messages" style="height: 400px;">
+                    <div class="well" > <strong>Send a Private Message </strong><i class="fa fa-comment"></i></div>
+                      <h5 style="padding-left: 10px;"> Click a <i class="fa fa-user"> name on the left to start chatting.... </i></h5>  
+                      <h5 style="padding-left: 10px;">All the messages sent will be private and only visible to the selected user. </h5>  
+                      <h5 style="padding-left: 10px;"> In case of unread chat messages, <i class="fa fa-bell"> you will be notified. </i> </h5>  
+                </div>
+                <div id="videoChatBox">
+                    <video id="localVideoChat" style=" width: 340px; height: 200px; padding-left: 20px;" autoplay muted></video>
+                    <video id="remoteVideoChat" style="width: 340px; height: 200px; padding-left: 20px;" autoplay></video>
+                </div>
+                <div id="chatInput">
+                     <div id="btnDiv" style="height:auto; margin:auto;" class = "row">
+                        <button class="btn-primary btn" id="videoChatShow" onclick="videoChatShow()"><i class="fa fa-video-camera"></i></button>
+                        <button class="btn-primary btn" id="videoChatHide" onclick="videoChatHide()"><i class="fa fa-times"></i></button>
+                    </div>
+                    <form id="chatBox" action="" class="bs-component">
+                        <div class="input-group">
+                            <input id="m" autofocus autocomplete="off" placeholder="Type here.." class="form-control" />
+                            
+                            <span class="input-group-btn">
+                                <button class="btn-primary  btn chatButton" id="sendChat">Send</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script type="text/javascript">
+
+    $('[data-toggle=offcanvas]').click(function() {
+        $(this).toggleClass('visible-xs text-center');
+        $(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+        $('.row-offcanvas').toggleClass('active');
+        $('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+        $('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+        $('#chatPage').toggleClass('col-xs-10').toggleClass('col-xs-8');
+        $('#btnShow').toggle();
+    });
+
+    var colorStack = {};
+    var lastMsgUid = "";
+    var signInMsg = 0;
+    var timeStamp = Date.today().set({
+                            second: 00,
+                            minute: 00,
+                            hour: 00,
+                            })  ;
+    var receiver ='';
+    var unreadCount = {};
+    var peerConnection;
+    var localMediaStream;
+    var videoChatStartTime;
+    $('#sendChat').prop("disabled", true);
+    $('#videoChatBox').hide();
+    $('#videoChatHide').hide();
+
+    socket.io.reconnect();
+    console.log("Calling user connected;");
+    socket.emit('user connected', {
+        uid: localStorage.getItem('mayday_userId') //localStorage.getItem('mayday_userId')
+    });
+
+    $('#chatInput').hide();
+    $('#m').on("keyup", action);
+
+    function action() {
+        if ($('#m').val().length > 0 && $('#m').val().trim().length > 0) {
+            $('#sendChat').prop("disabled", false);
+        } else {
+            $('#sendChat').prop("disabled", true);
+        }
+    }
+
+// $("#topNav ul li a").click(function() {
+    $("#lg-menu").click(function(e) {
+if($(e.target).parent().prop("tagName") == "LI" && !$(e.target).parent().hasClass("receiver")){
+        $('#chatInput').show();
+        $('#m').focus();
+        lastMsgUid = "";
+        
+         
+        receiver = $(e.target).parent().attr('id');
+        unreadCount[receiver]=0;
+        $('#xs-badge-'+receiver).html("");
+        $('#badge-'+receiver).html("");
+        var sender = localStorage.getItem('mayday_userId');
+        socket.emit('getPrivateChat', {
+            receiver: receiver,
+            sender: sender
+        });
+        $("#lg-menu li").removeClass("receiver");
+        $("#xs-menu li").removeClass("receiver");
+        $(e.target).parent().addClass("receiver");
+        $("#xs-"+receiver).addClass("receiver");
+}
+    });
+
+    $("#xs-menu").click(function(e) {
+        if($(e.target).parent().prop("tagName") == "LI" && !$(e.target).parent().hasClass("receiver")){
+        $('#chatInput').show();
+        $('#m').focus();
+        lastMsgUid = "";
+        
+        
+        receiver = $(e.target).parent().attr('id').toString().substring(3);
+        unreadCount[receiver]=0;
+        var sender = localStorage.getItem('mayday_userId');
+        $('#xs-badge-'+receiver).html("");
+        $('#badge-'+receiver).html("");
+        socket.emit('getPrivateChat', {
+            receiver: receiver,
+            sender: sender
+        });
+        $("#lg-menu li").removeClass("receiver");
+        $("#xs-menu li").removeClass("receiver");
+        $("#"+receiver).addClass("receiver");
+        $("#xs-"+receiver).addClass("receiver");
+}
+    });
+
+    $('#chatBox').submit(function() {
+        socket.emit('private chat message', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            msg: $('#m').val(),
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+            msg_type: 'text',
+        });
+        $('#m').val('');
+        // receiver ='';
+        return false;
+    });
+
+    navigator.getUserMedia = navigator.getUserMedia || navigator.mozGetUserMedia || navigator.webkitGetUserMedia;
+    window.RTCPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
+    window.RTCIceCandidate = window.RTCIceCandidate || window.mozRTCIceCandidate || window.webkitRTCIceCandidate;
+    window.RTCSessionDescription = window.RTCSessionDescription || window.mozRTCSessionDescription || window.webkitRTCSessionDescription;
+
+    function videoChatShow(){
+        setupVideoChat(
+            true,
+            function() {
+                socket.emit('private chat message', {
+                    sender: localStorage.getItem('mayday_userId'),
+                    receiver: receiver,
+                    time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+                    msg: 'Video chat request',
+                    msg_type: 'videochat_request',
+                });
+            },
+            null);
+    }
+
+    function setupVideoChat(isCaller, onSuccess, onFail) {
+        if(!navigator.getUserMedia || !window.RTCPeerConnection || !window.RTCIceCandidate  || !window.RTCSessionDescription){
+            alert('video chat not supported in this browser!');
+            return;
+        }
+        $('#videoChatBox').show();
+        $('#videoChatShow').hide();
+        $('#videoChatHide').show();
+       
+        navigator.getUserMedia(
+            {video: true , audio: true},
+            function(stream) {
+                localMediaStream = stream;
+                var video = document.getElementById('localVideoChat');
+                video.style.visibility = "visible";
+                video.src = window.URL.createObjectURL(localMediaStream);
+                setupConnection(isCaller);
+                onSuccess();
+            },
+            onFail || videoChatError); 
+        }
+
+    function videoChatHide(){
+        var videoChatEndTime = new Date();
+        var duration = videoChatStartTime ? videoChatEndTime - videoChatStartTime : 0;
+        var seconds = Math.round(duration /= 1000) % 60;
+        var minutes = Math.round(duration /= 60);
+        var duration = minutes + ' minutes, ' + seconds + ' seconds';
+        socket.emit('private chat message', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+            msg: 'Video chat ended. Total call duration: ' + duration,
+            msg_type: 'videochat_session_ended',
+            duration: duration,
+        });
+        socket.emit('video chat signal', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            session: {ended: true},
+        });
+        shutdownVideoChat();
+    }
+   
+    function shutdownVideoChat() {
+        $('#videoChatBox').hide();
+        $('#videoChatShow').show();
+        $('#videoChatHide').hide();
+        localMediaStream.stop();
+        videoChatStartTime=null;
+        document.getElementById('localVideoChat').style.visibility = "hidden";
+        document.getElementById('remoteVideoChat').style.visibility = "hidden";
+        if (peerConnection) {
+            peerConnection.close();
+        }
+    }
+
+    function videoChatError(error) {
+        console.log("Error running video chat: " + error);
+    }
+
+    function setupConnection(isCaller) {
+        peerConnection = new RTCPeerConnection({'iceServers': []});
+        peerConnection.onicecandidate = didGetIceCandidate;
+        peerConnection.onaddstream = didGetRemoteStream;
+        peerConnection.addStream(localMediaStream);
+    }
+
+    function didAcceptVideoChatRequest() {
+        setupVideoChat(
+            false,
+            function() {
+                socket.emit('private chat message', {
+                    sender: localStorage.getItem('mayday_userId'),
+                    receiver: receiver,
+                    time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+                    msg: 'Video chat accepted',
+                    msg_type: 'videochat_request_accept',
+                });
+                socket.emit('video chat signal', {
+                    sender: localStorage.getItem('mayday_userId'),
+                    receiver: receiver,
+                    request: {accept: true},
+                });
+            },
+            didDeclineVideoChatRequest);
+    }
+
+    function didDeclineVideoChatRequest() {
+        socket.emit('private chat message', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+            msg: 'Video chat declined',
+            msg_type: 'videochat_request_decline',
+        });
+        socket.emit('video chat signal', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            request: {accept: false},
+        });
+    }
+
+    function cannotAnswerVideoChatRequest(receiver) {
+        console.log('auto declined receiver'+ receiver);
+        socket.emit('private chat message', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss"),
+            msg: 'Video chat unanswered',
+            msg_type: 'videochat_request_unanswered',
+        });
+        socket.emit('video chat signal', {
+            sender: localStorage.getItem('mayday_userId'),
+            receiver: receiver,
+            request: {accept: false},
+        });
+    }
+
+    function didGetDescription(description) {
+        peerConnection.setLocalDescription(description, function () {
+            console.log('emitting video chat signal');
+            socket.emit('video chat signal', {
+                sender: localStorage.getItem('mayday_userId'),
+                receiver: receiver,
+                sdp: description,
+            }, videoChatError);
+        }, function() {console.log('set description error')});
+    }
+
+    function didGetIceCandidate(event) {
+        if(event.candidate !== null) {
+            socket.emit('video chat signal', {
+                sender: localStorage.getItem('mayday_userId'),
+                receiver: receiver,
+                ice: event.candidate,
+            });
+        }
+    }
+
+    function didAddIceCandidate(event){
+        console.log("added ice candidate");
+    }
+
+    function didGetRemoteStream(event) {
+        var video = document.getElementById('remoteVideoChat');
+        video.style.visibility = "visible";
+        video.src = window.URL.createObjectURL(event.stream);
+
+        videoChatStartTime = new Date();
+    }
+
+    function didGetVideoChatSignal(data) {
+      if(data.sender == receiver){
+        handleVideoChatSignal(data);
+      }
+    }
+
+    function handleVideoChatSignal(data) {
+        if (data.request) {
+            if (data.request.accept) {
+                peerConnection.createOffer(didGetDescription, videoChatError);
+            } else {
+                shutdownVideoChat();
+            }
+        } else if (data.session && data.session.ended) {
+            shutdownVideoChat();
+        } else if(data.sdp) {
+            peerConnection.setRemoteDescription(new RTCSessionDescription(data.sdp), function() {
+                peerConnection.createAnswer(didGetDescription, videoChatError);
+            }, videoChatError);
+        } else if(data.ice) {
+            peerConnection.addIceCandidate(new RTCIceCandidate(data.ice), didAddIceCandidate, videoChatError);
+        }
+    }
+
+    socket.on('video chat signal', didGetVideoChatSignal);
+
+
+
+</script>
+

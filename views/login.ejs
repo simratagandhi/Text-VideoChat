@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Mayday</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="/css/bootstrap.min.css">
+		<script src='/js/jquery-2.1.4.min.js'></script>
+    	<script type="text/javascript" src='/js/bootstrap.min.js'></script>
+    	<link rel="stylesheet" href="/css/font-awesome.min.css">
+		<link rel="icon" href="/images/logo.png" type="image/x-icon">
+	</head>
+	<body>
+		<!-- Title -->
+		<div class = "container">
+			<img src="/images/logo.png" class = "center-block" width="200px" height="200px">
+		</div>
+		
+		<!-- Type user id -->
+		<div id="loginWWrap" class="container">
+			<div class="col-md-6 col-md-offset-3 column">
+				<div class="row">
+					<h3 class="text-center">Welcome to Mayday! - Emergency service</h3>
+					<hr class="colorgraph">
+					<div class="alert alert-dismissible alert-danger col-md-8 col-md-offset-2" style="display:none;">
+			          <button type="button" class="close"> X </button>
+			          <div id="error"></div>
+			        </div>
+					<form role="form" id="loginForm">
+						<div class="col-md-8 col-md-offset-2 column">
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
+								<input id= "uname" type="text" name="loginUsername" class="form-control input-md" placeholder="Username" pattern=".{3,}"   required title="3 characters minimum" autofocus>
+							</div>
+							<div class="form-group input-group">
+								<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+								<input id = "pass1" type="password" name="loginPassword" class="form-control input-md" placeholder="Password" pattern=".{4,}"   required title="4 characters minimum" >
+							</div>
+							<div class="form-group input-group demo" id="signUpPwd">
+								<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+								<input id="pass2" type="password" name="confirmPassword" class="form-control input-md" placeholder="Confirm your password" pattern=".{4,}"  title="4 characters minimum" >
+							</div>
+							
+							
+							<button type="submit" id="loginBtn" class="btn btn-primary btn-block" style="margin-top:5px">Login</button>
+							<button type="submit" id="signupBtn" class="btn btn-primary btn-block" style="margin-top:5px; display:none;">Sign Up</button>
+							
+							<a id="signup" class="col-md-8 col-md-offset-3 col-xs-8 col-xs-offset-3" href="#" style="margin-top:12px">Create a new account &nbsp <i class="fa fa-user-plus"></i></a>
+							<a id="login" class="col-md-5 col-md-offset-4 col-xs-5 col-xs-offset-4" href="#" style="margin-top: 12px; display: none;">Go back to login</a>
+							</br>
+							</br>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			
+			<script src='/js/jquery-2.1.4.min.js'></script>
+			<script type="text/javascript" src='/js/bootstrap.min.js'></script>
+			
+			<script type="text/javascript">
+				// $(document).ready(function(){
+				$('#signup').click(function() {
+					$("#signUpPwd").removeClass("demo");
+					$("#loginBtn").hide();
+					$("#signupBtn").show();
+					$("#signup").hide();
+					$("#login").show();
+					$('#pass2').prop("required",true);
+					$("#loginBtn").prop("disabled", true);
+					// if (!$('#pass1').val() || $('#pass1').val() != $('#pass2').val()) {
+					// 	$("#signupBtn").prop("disabled", true);
+					// }
+				});
+			$('#login').click(function() {
+				$("#signUpPwd").addClass("demo");
+				$("#loginBtn").show();
+				$("#signupBtn").hide();
+				$("#signup").show();
+				$("#login").hide();
+				$('#pass2').prop("required",false);
+				$("#loginBtn").prop("disabled", false);
+				$(':password').parent().removeClass("has-success");
+				$(':password').parent().removeClass("has-error");
+
+
+			});
+			$('input').keyup(function(e){
+				// if($('.alert').is(':visible'))
+				var pass1 = $('#pass1');
+				var pass2 = $('#pass2');
+				if(e.which != 13)
+					$(".alert").hide();
+				if($('#signupBtn').is(':visible')) {
+					if (pass1.val() !="" && pass1.val() == pass2.val()) {
+						$(':password').parent().removeClass("has-error");
+						$(':password').parent().addClass("has-success");
+						$("#signupBtn").prop("disabled", false);
+						if(e.which == 13)
+						$("#signupBtn").click();
+
+					}else{
+						$(':password').parent().addClass("has-error");
+						$(':password').parent().removeClass("has-success");
+						$("#signupBtn").prop("disabled", true);
+					}
+				}
+
+			});
+			function checkUname(uid){
+				var resIds = ['about','access','account','accounts','add','address','adm','admin','administration','adult','advertising','affiliate','affiliates','ajax','analytics','android','anon','anonymous','api','app','apps','archive','atom','auth','authentication','avatar','backup','banner','banners','bin','billing','blog','blogs','board','bot','bots','business','chat','cache','cadastro','calendar','campaign','careers','cgi','client','cliente','code','comercial','compare','config','connect','contact','contest','create','code','compras','css','dashboard','data','db','design','delete','demo','design','designer','dev','devel','dir','directory','doc','docs','domain','download','downloads','edit','editor','email','ecommerce','forum','forums','faq','favorite','feed','feedback','flog','follow','file','files','free','ftp','gadget','gadgets','games','guest','group','groups','help','home','homepage','host','hosting','hostname','html','http','httpd','https','hpg','info','information','image','img'];
+			    var resIds1= ['images','imap','index','invite','intranet','indice','ipad','iphone','irc','java','javascript','job','jobs','js','knowledgebase','log','login','logs','logout','list','lists','mail','mail1','mail2','mail3','mail4','mail5','mailer','mailing','mx','manager','marketing','master','me','media','message','microblog','microblogs','mine','mp3','msg','msn','mysql','messenger','mob','mobile','movie','movies','music','musicas','my','name','named','net','network','new','news','newsletter','nick','nickname','notes','noticias','ns','ns1','ns2','ns3','ns4','old','online','operator','order','orders','page','pager','pages','panel','password','perl','pic','pics','photo','photos','photoalbum','php','plugin','plugins','pop','pop3','post','postmaster','postfix','posts','profile','project','projects','promo','pub','public','python','random','register','registration','root','ruby','rss','sale','sales','sample','samples','script','scripts','secure','send','service','shop','sql','signup'];
+			    var resIds2 = ['signin','search','security','settings','setting','setup','site','sites','sitemap','smtp','soporte','ssh','stage','staging','start','subscribe','subdomain','suporte','support','stat','static','stats','status','store','stores','system','tablet','tablets','tech','telnet','test','test1','test2','test3','teste','tests','theme','themes','tmp','todo','task','tasks','tools','tv','talk','update','upload','url','user','username','usuario','usage','vendas','video','videos','visitor','win','ww','www','www1','www2','www3','www4','www5','www6','www7','wwww','wws','wwws','web','webmail','website','websites','webmaster','workshop','xxx','xpg','you','yourname','yourusername','yoursite','yourdomain'];
+				for(var i=0;i<resIds.length;i++){
+					if(resIds[i].localeCompare(uid) == 0){
+						return true;
+					}
+					
+				}
+				for(var i=0;i<resIds1.length;i++){
+					if(resIds1[i].localeCompare(uid) == 0){
+						return true;
+					}
+					
+				}
+				for(var i=0;i<resIds2.length;i++){
+					if(resIds2[i].localeCompare(uid) == 0){
+						return true;
+					}
+					
+				}
+				return false;
+			}
+			$('#loginBtn').click(function() {
+				if(checkUname($('#uname').val())){
+					$(".alert").show();
+					$('#error').html("This user name is restricted, try another!");
+					return false;
+				}
+				if ($('form#loginForm')[0].checkValidity()) {
+					$.post("/loginUser", $('form#loginForm :input[name!="confirmPassword"]').serialize(), function(data) {
+						 if(data.success)           
+						{
+							localStorage.setItem('mayday_userId',data.user);
+							localStorage.setItem('mayday_token',data.token);
+							localStorage.setItem('mayday_token_expiry',data.expires);
+							window.location.href = "/welcome/"+data.user;
+						}else{
+							$(".alert").show();
+							$('#error').html("Error loggin in!")
+						}
+					}).fail(function(err) {
+						$(".alert").show();
+					    $('#error').html(err.responseJSON.error);
+					});
+
+					return false;
+				}
+				return true;
+			});
+
+			$('#signupBtn').click(function() {
+				// method = method || "post"; // Set method to post by default if not specified.
+				// $('form#loginForm').submit();
+				if(checkUname($('#uname').val())){
+					$(".alert").show();
+					$('#error').html("This user name is restricted, try another!");
+					return false;
+				}
+				if ($('form#loginForm')[0].checkValidity()) {
+					$.post("/signupUser", $('form#loginForm :input[name!="confirmPassword"]').serialize(), function(data) {
+						if(data.success)           
+						{
+							localStorage.setItem('mayday_userId',data.user);
+							localStorage.setItem('mayday_token',data.token);
+							localStorage.setItem('mayday_token_expiry',data.expires);
+							window.location.href = "/welcome/"+data.user;
+							// $.ajax({
+							//     url: "/test",
+							//     headers: {"X-Test-Header": "test-value"}
+							// });
+						}else{
+							$(".alert").show();
+							$('#error').html("Error signin in!")
+						}
+					}).fail(function(err) {
+						$(".alert").show();
+					    $('#error').html(err.responseJSON.error);
+					});
+					return false;
+				}
+				return true;
+
+			});
+			$( ".close" ).click(function( event ) {
+			  event.preventDefault();
+			  $( this ).parent().hide();
+			});
+			// 
+			
+			    if (localStorage.getItem('mayday_userId') != null){
+			        window.location.href = "/welcome/"+localStorage.getItem('mayday_userId');
+			    } 
+			    // else {
+			    //     document.write('<input type="button" id='approve' value="approve" onclick="a()"/><input type="button" id='reject' value="reject" onclick="r()"/>')
+			    // }
+    		
+			</script>
+		</body>
+		<style>
+			.colorgraph {
+				width:90%;
+			height: 5px;
+			border-top: 0;
+			background: #c4e17f;
+			border-radius: 5px;
+			background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+			background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+			background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+			background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+			}
+			.demo {
+				display: none;
+			}
+		</style>
+		
+	</html>

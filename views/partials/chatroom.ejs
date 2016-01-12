@@ -1,0 +1,117 @@
+<!-- <!DOCTYPE html>
+<html>
+  <body> -->
+
+  		<div id="wrapper">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                  <i class="fa fa-plus-square fa-md"></i><strong> Mayday </strong>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-lg"></i><strong> KT </strong></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-lg"></i><strong> Sim </strong></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-lg"></i><strong> Jason </strong></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-lg"></i><strong> Angel </strong></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-user fa-lg"></i><strong> Gilbert </strong></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+        <!-- Message body --> <!-- Might have to change this part -->
+        <section class="contentWrap">
+        <div class = "container-fluid">
+          <div class="col-xs-12 col-md-8 col-md-offset-2" style="margintop:5px">
+          <div class="jumbotron" id="chat" ></div>
+        </div>
+
+        <!-- Type messages -->
+          <form id="messageBody"> 
+            <div class="col-xs-12 col-md-8 col-md-offset-2" style="margintop:5px">
+              <div class="input-group align-center">
+                <input type="text" id="typeMsg" class="form-control" autocomplete="off" placeholder="Enter your message here" aria-describedby="sizing-addon2">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-primary btn-md" id="btn-chat">Send</button>
+                </span>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    <!--<script src='/js/public_chat.js'></script> -->
+    <script>
+ jQuery(function($){
+          var socket = io.connect();
+          var $messageForm = $('#messageBody');
+          var $chat = $('#chat');
+          var $typeMessageBox = $('#typeMsg');
+            console.log("Loaded:" + $messageForm.get(0));
+
+          $messageForm.submit(function(e){
+            console.log("Prevent default:" + $messageForm);
+            e.preventDefault();
+            console.log("Submitting");
+            sendMessage();
+          });
+
+          //to send msg from client to server 
+          function sendMessage(){
+            var msg = $typeMessageBox.val().trim();
+            console.log("msg: " + msg);
+            if(msg){
+              console.log('before sending socket emit msg');
+            socket.emit('send message', msg, formattedDate());
+            }
+            $typeMessageBox.val('');
+          }
+
+          //to format the date in specified format
+          function formattedDate() {
+            var d = new Date();
+            var date = ("0" + (d.getMonth() + 1)).slice(-2) + "." + ("0" + d.getDate()).slice(-2) + "." + d.getFullYear();
+            var hours = d.getHours();
+            var ampm = "AM";
+            if(hours == 0){
+              hours=12;
+            }else if (hours > 11) {
+              ampm = "PM";
+              if (hours > 12) {
+                hours -= 12;
+              }
+            }
+            var time = hours + ":" + ("0" + d.getMinutes()).slice(-2) + " " + ampm;
+            return date + " " + time;
+          }
+
+          socket.on('new message', function(data){
+            displayMsg(data);
+          });
+
+          //replace function to display
+          function transformMsg(msg){
+            msg= msg.replace(/\n/g, "<br/>");
+            msg= msg.replace(/ /g,"&nbsp;");
+            return msg;
+          }
+          //to display data on client
+          function displayMsg(data){  
+            console.log('inside display msg');
+            $chat.append ("<div class=chatMsg><b>" + data.user_id + "</b>" + "<span class=msgTime>"+data.msg_time + "</span><br/><p>"+ transformMsg(data.msg) +"</p></div>");
+            $chat.scrollTop($chat[0].scrollHeight);
+
+          }
+  });
+      </script>
+
+  <!-- </body>
+  </html> -->

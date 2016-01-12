@@ -1,0 +1,84 @@
+<!-- <!DOCTYPE html>
+<html>
+  <body> -->
+<div class="bs-example" data-example-id="thumbnails-with-custom-content">
+  <div class="row" id="userList">
+    <div class="col-sm-12 col-md-12">
+      <!-- <div class="panel panel-default"> -->
+        <!-- Default panel contents -->
+        <h3>Online Users (<%= Object.keys(users.online).length %>)</h3>
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <!-- <th>#</th> -->
+              <th>User Id</th>
+              <th>Status</th>
+              <th>Timestamp</th>
+              <th>Location</th>
+              <!-- <th>Column heading</th> -->
+            </tr>
+          </thead>
+          
+          <tbody>
+            <% for(var user in users.online) {
+              console.log("status"+users.online[user]['status']);
+            %>
+            <tr class="<%= statusClass[users.online[user]['status']] %>" >
+              <td class="col-sm-3"><%= user%></td>
+              <td><i class="fa fa-<%= iconClass[users.online[user]['status']]%> fa-fw" ></i><%= status[users.online[user]['status']] %></td>
+              <!-- <% var time_id = users.online[user]['time_id']==null ? "" : users.online[user]['time_id']; console.log("time_id"+time_id);
+                 var location = users.online[user]['location']==null ? "" : users.online[user]['location']; %> -->
+              <td><i class="fa fa-clock-o fa-fw" ></i><%= users.online[user]['time_id'] %> %></td>
+              <td><i class="fa fa-location-arrow fa-fw" ></i><%= users.online[user]['location'] %> %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+    
+    <div class="col-sm-12 col-md-12" style="opacity:0.5;">
+      <!-- <div class="panel panel-default"> -->
+        <!-- Default panel contents -->
+        <h3>Offline Users (<%= Object.keys(users.offline).length %>)</h3>
+        <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <!-- <th>#</th> -->
+              <th>User Id</th>
+              <th>Status</th>
+              <th>Timestamp</th>
+              <th>Location</th>
+              <!-- <th>Column heading</th> -->
+            </tr>
+          </thead>
+          
+          <tbody>
+            <% for(var user in users.offline) {
+            %>
+            <tr class="<%= statusClass[users.offline[user]['status']] %>" >
+              <td class="col-sm-3"><%= user %></td>
+              <td><i class="fa fa-<%= iconClass[users.offline[user]['status']]%> fa-fw" ></i><%= status[users.offline[user]['status']] %></td>
+              <!-- <% var time_id = users.offline[user]['time_id']==null ? "" : users.offline[user]['time_id'];
+                 var location = users.offline[user]['location']==null ? "" : users.offline[user]['location']; %> -->
+              <td><i class="fa fa-clock-o fa-fw" ></i><%= users.offline[user]['time_id'] %></td>
+              <td><i class="fa fa-location-arrow fa-fw" ></i><%= users.offline[user]['location'] %> %></td>
+            </tr>
+            <% } %>
+          </tbody>
+        </table>
+    </div>
+
+    
+  </div>
+</div>
+
+
+<style>
+  tbody tr{
+    border: 1px solid;
+    }
+    .fa-2x{
+    top: 5px;
+    position: relative;
+    }
+</style>

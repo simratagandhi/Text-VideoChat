@@ -1,0 +1,133 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head> -->
+<div class="bs-component">
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#topNav">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="<%= user %>">Home</a>
+			</div>
+			<div id="topNav" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li id="navUser" data-path="users" <%if (active == 1) { %> class="active" <% } %>><a href="#">Users<span class="sr-only">(current)</span></a></li>
+					<!-- <li id="navShare" data-path="share" <%if (active == 2) { %> class="active" <% } %>><a href="#">Share status<span class="sr-only">(current)</span></a></li>
+ -->					<li id="navChat" <%if (active == 3) { %> class="dropdown active" <% }else{ %>class="dropdown" <% } %>>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Chat <span class="caret"></span></a>
+						<ul class="dropdown-menu" role="menu">
+							<li id="navChatPublic" data-path="publicchat"><a href="#"><i class="fa fa-users"></i>  Public</a></li>
+							<li id="navChatPrivate" data-path="privatechat"><a href="#"><i class="fa fa-user-secret"></i> Private</a></li>
+						</ul>
+					</li>
+					<li id="navShare" data-path="announcement" <%if (active == 4) { %> class="active" <% } %>><a href="#">Announce<span class="sr-only">(current)</span></a></li>
+					<li id="navShare" data-path="performance" <%if (active == 5) { %> class="active" <% } %>><a href="#">Measure Performance<span class="sr-only">(current)</span></a></li>					
+				</ul>
+				<!-- <form class="navbar-form navbar-left" role="search">
+					<div class="form-group">
+						<input type="text" class="form-control" placeholder="Search">
+					</div>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form> -->
+
+				<form id="searchForm" class="navbar-form navbar-left" role="search" name="search-form">
+						<div class="row">
+						  <div class="col-lg-10">
+						    <div class="input-group">
+						      <div id="searchMenu" class="input-group-btn">
+						        <button id="searchButton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search For <span class="caret"></span></button>
+						        <ul id="selectMenu" class="dropdown-menu" role ="menu">
+						           <li id="cName" data-search="cName" role="presentation"><a class="dropdown-item" href="#">Citizen Name</a></li>
+							          <li id="cStatus"  data-search="cStatus" role="presentation"><a class="dropdown-item" href="#">Citizen Status</a></li>
+							          <li id="Announ" data-search="announcements" role="presentation"><a class="dropdown-item" href="#">Announcements</a>
+							          <li id="publicChat" data-search="publicChat" role="presentation"><a class="dropdown-item" href="#">Public Chat</a></li>
+							          <li id="privateChat" data-search="privateChat" role="presentation"><a class="dropdown-item" href="#">Private Chat</a></li>
+						        </ul>
+						      </div><!-- /btn-group -->
+						      <input type="text" class="form-control" aria-label="..." placeholder="Search..." id="searchTxt">
+
+						    </div><!-- /input-group -->
+
+						  </div><!-- /.col-lg-6 -->
+						 </div>
+
+				</form>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li><a id="uid"><%= user %></a></li>
+					<li><a id="logout" href="#"><i class="fa fa-power-off"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+</div>
+<script type="text/javascript" src="/js/searchUI.js"></script>
+
+<script type = "text/javascript">
+
+$("#topNav ul li a").click(function() {
+	console.log("Data path: " + $(this).parent().attr('data-path'));
+	if($("#topNav ul li.active").attr('data-path') && $("#topNav ul li.active").attr('data-path').indexOf('performance')!=-1){
+		if($('#startBtn').prop("disabled"))
+			return false;
+	}
+	if ($(this).parent().attr('data-path') && ($(this).parent().attr('data-path').indexOf('users') != -1 || !$(this).parent().hasClass("active"))) {
+		var path = $(this).parent().attr('data-path');
+		if ($("#topNav ul li.active").attr('data-path') && $("#topNav ul li.active").attr('data-path').indexOf('chat') != -1) {
+			// $('#layoutChange script').remove();
+				socket.emit('user disconnected', {
+				uid: $('#uid').val()
+			});
+		}
+		// 
+		$("#topNav ul li").removeClass("active");
+		$(this).parent().addClass("active");
+
+		$.get(localStorage.getItem('mayday_userId') + "/" + path, function(data) {
+			$("#layoutChange div").remove();
+			$("#layoutChange").html(data);
+				});
+		    if ($('.navbar-toggle').is(':visible'))
+				$(".navbar-toggle").click();
+		
+		
+	}
+	if ($(this)[0].id == "logout") {
+		localStorage.removeItem('mayday_userId');
+		window.location.href = "/logout/" + $("#uid").text();
+	}
+});
+
+//$(document).ready(function() {
+if (localStorage.getItem('mayday_userId') == null || localStorage.getItem('mayday_userId') == "undefined") {
+	localStorage.removeItem('mayday_userId');
+	window.location.href = "/";
+}
+$.ajaxSetup({
+	beforeSend: function(xhr) {
+		xhr.setRequestHeader('x-user-token', localStorage.getItem('mayday_token'));
+	}
+});
+setInterval(function() {
+	if ($("#topNav ul li.active").attr('data-path') && $("#topNav ul li.active").attr('data-path').indexOf('users') != -1)
+		$.get(localStorage.getItem('mayday_userId') + "/users", function(data) {
+			$("#layoutChange div").remove();
+			$("#layoutChange").html(data);
+		});
+}, 60000);
+
+
+</script>
+<style>
+.dropdown-menu {
+  width: 100%; 
+}
+
+#topNav .btn{
+ width: 100%;
+}
+</style>

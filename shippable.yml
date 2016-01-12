@@ -1,0 +1,34 @@
+
+# language setting
+language: node_js
+
+# version numbers
+node_js:
+    - 4.1.2
+    - 2.10.1
+
+before_install:
+# Activate the required node.js version. $SHIPPABLE_NODE_VERSION
+  - npm install --save sqlite3
+  - npm install -g grunt-cli mocha istanbul
+
+# 'npm install' is executed by default in Shippable - shown here for illustrative purposes
+install:
+  - npm install
+
+# Running npm test to run your test cases
+script:
+    - grunt shippable
+
+# The path for Xunit to output test reports
+env:
+  - MOCHA_FILE=shippable/testresults/result.xml
+
+# Create directories for test and coverage reports
+before_script:
+      - mkdir -p shippable/testresults
+      - mkdir -p shippable/codecoverage
+
+# Tell istanbul to generate a coverage report
+after_script:
+     - ./node_modules/.bin/istanbul report cobertura --dir  shippable/codecoverage/

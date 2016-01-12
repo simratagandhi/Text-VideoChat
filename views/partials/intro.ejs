@@ -1,0 +1,73 @@
+<h1>Welcome  <%= user %> !</h1>
+<p class="lead">Through our emergency website Mayday, you will be able to share your status, connect with <br> people through chat and view their status.</p>
+<%if (status != 0) { %>
+<h4>You have selected the highlighted status below. You can choose to change it by clicking on other status.</h4>
+<% }else{ %>
+<h4 id="msg">You can choose to share the status below</h4>
+<% } %>
+<h4 id="share" style="display:none;">Thanks for sharing your status!</h4>
+
+<div class="row">
+  <div class="col-lg-4">
+    <div class="status alert alert-dismissible alert-success <%if (status != 1 && status !=0) { %>unselectedStatus<% } %>" href="#" role="button" data-status="1">
+      <i class="fa fa-check-circle fa-2x fa-fw" ></i><strong> OK </strong>
+      <p> I am okay,  <br> I don't really need help at the moment. </p>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="status alert alert-dismissible alert-warning <%if (status != 2 && status !=0) { %>unselectedStatus<% } %>" href="#" role="button" data-status="2" >
+      <i class="fa fa-hand-paper-o fa-2x fa-fw" ></i><strong> HELP </strong>
+      <p>I need help, <br> but it's not a life threatening emergency.</p>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="status alert alert-dismissible alert-danger <%if (status != 3 && status !=0) { %>unselectedStatus<% } %>" href="#" role="button" data-status="3">
+      <i class="fa fa-ambulance fa-2x fa-fw" ></i><strong> EMERGENCY </strong>
+      <p>I need help now, <br> as this is a life threatening emergency! </p>
+    </div>
+  </div>
+  
+</div>
+
+<script type="text/javascript">
+$('.status').click(function() {
+$("#msg").hide();
+
+var status = parseInt($( this ).attr("data-status"));
+var uid = localStorage.getItem('mayday_userId');
+
+// $('form#shareStatus') {
+$.post("/welcome/updateStatus",{uid:uid, status:status,time_id: new Date().toString("yyyy-MM-dd HH:mm:ss")}, function(data) {
+if(data.success)
+{
+$("#share").show();
+$('.status').addClass("unselectedStatus") ;
+$(".status[data-status='"+data.status+"']" ).removeClass("unselectedStatus");
+}else{
+// $(".alert").show();
+$("#share").show();
+$('#share').html("Error updating status!");
+}
+}).fail(function(err) {
+$("#share").show();
+$('#share').html(err.responseJSON.error);
+});
+});
+</script>
+<style>
+tbody tr{
+border: 1px solid;
+}
+.fa-2x{
+top: 2px;
+position: relative;
+}
+.unselectedStatus{
+opacity:0.2;
+}
+.unselectedStatus:hover{
+opacity:0.5;
+}
+</style>
+<script type="text/javascript">
+</script>

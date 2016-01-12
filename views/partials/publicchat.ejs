@@ -1,0 +1,302 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head> -->
+<!-- <script type="text/javascript" src="/js/date.js"></script> -->
+<style>
+.top {
+list-style-type: none;
+margin: 0;
+padding: 0;
+/*height: 83%;*/
+/*background: url("images/msgBg.png");`*/
+/*background-size: cover;*/
+overflow: scroll;
+display: flex;
+flex-direction: column;
+}
+#messages {
+flex-grow: 1;
+overflow-y: auto;
+}
+
+#messages div {
+
+
+flex-shrink: 0;
+}
+.userLog {
+text-align: center;
+clear: both;
+display: inline-block;
+position: relative;
+/*color: white;*/
+/*font-weight: 900;*/
+/*font-size: 18px;*/
+padding: 10px;
+display: block;
+}
+.userLog:before,
+.userLog:after {
+content: "";
+position: absolute;
+height: 5px;
+border-bottom: 1px solid ;
+
+
+top: 16px;
+width: 42%;
+}
+.userLog:before {
+right: 70%;
+margin-right: 6px;
+}
+.userLog:after {
+left: 70%;
+margin-left: 6px;
+}
+.message,
+.mymessage {
+min-width: 38%;
+border-radius: 8px;
+box-shadow: 0 1px .5px rgba(0, 0, 0, .13);
+padding: 3px 7px 0px 7px;
+margin-right: 8px;
+display: block;
+margin: 10px 10px 10px 10px;
+max-width: 60%;
+word-wrap: break-word;
+}
+.message {
+float: left;
+background-color: #C5CBD1;
+position: relative;
+}
+.mymessage {
+float: right;
+background-color: #E8E8E8;
+position: relative;
+}
+.msg {
+display: block;
+margin-top: 8px;
+width: 80%;
+}
+.cmsg {
+padding-top: 3px;
+}
+.mdate {
+float: right;
+
+
+font-size: 11px;
+position: relative;
+color: gray;
+top: -15px;
+
+}
+.announcement {
+width:95%;
+float: left;
+background-color: #FFB6C1;
+color:#800000;
+position: relative;
+left:10px;
+text-align: center;
+vertical-align: center;
+padding:5px;
+margin:3px;
+}
+
+.message:before {
+content: "";
+display: inline-block;
+position: absolute;
+left: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-right: 8px solid #C5CBD1;
+}
+.mymessage:before {
+content: "";
+display: inline-block;
+position: absolute;
+right: -6px;
+top: 8px;
+height: 0px;
+width: 0px;
+border-top: 8px solid transparent;
+border-bottom: 8px solid transparent;
+border-left: 8px solid #E8E8E8;
+}
+div.loading {
+position: relative;
+/*background: url('/images/ajax-loader.gif') no-repeat center center;*/
+height: 20px;
+width: 20px;
+margin-left: 50%;
+}
+
+@media (max-width: 768px) {
+.column .padding {
+padding: 7px;
+}
+.full{
+padding-top:20px;
+}
+.navbar-blue {
+background-color:#3B5999;
+top:0;
+width:100%;
+position:relative;
+}
+}
+/*
+* off canvas sidebar
+* --------------------------------------------------
+*/
+@media screen and (max-width: 768px) {
+.row-offcanvas {
+position: relative;
+-webkit-transition: all 0.25s ease-out;
+-moz-transition: all 0.25s ease-out;
+transition: all 0.25s ease-out;
+}
+.row-offcanvas-left.active {
+left: 33%;
+}
+.row-offcanvas-left.active .sidebar-offcanvas {
+left: -30%;
+position: absolute;
+top: 0;
+width: 33%;
+margin-left: 5px;
+}
+#chatBox{
+padding-top: 5px;
+}
+#sidebar, #sidebar a, #sidebar-footer a {
+padding-left:12px;
+}
+}
+</style>
+<div class="panel panel-primary ">
+    <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-users"></i>&nbsp;&nbsp;Public Chatroom</h3>
+    </div>
+    <div class="panel-body ">
+        <div id="chatroom" class="row row-offcanvas row-offcanvas-left">
+            <div class="column col-sm-2 col-xs-1 sidebar-offcanvas" id="sidebar" style="height: 450px;">
+                <ul class="nav">
+                    <li data-toggle="offcanvas" class="visible-xs text-center"><i class="glyphicon glyphicon-chevron-right"></i></li>
+                </ul>
+                <ul class="list-unstyled hidden-xs" id="sidebar-footer">
+                    <li style="color:green;">
+                        <h6><i class="fa fa-circle"></i><b>  Online  &nbsp;</b><span class="online total"></span></h6>
+                    </li>
+                </ul>
+                <ul class="nav hidden-xs" id="lg-menu">
+                    
+                </ul>
+                
+                
+                <!-- tiny only nav-->
+                <ul class="nav visible-xs" id="xs-menu">
+                    
+                </ul>
+                <!-- <ul id="online_list" class="list-group">
+                </ul> -->
+            </div>
+            <div id="chatPage" class="column col-sm-10 col-xs-10 ">
+                <div class="panel panel-default top" id="messages" style="height: 400px;"></div>
+                <form id="chatBox" action="" class="bs-component">
+                    <div class="input-group">
+                        <input id="m" autofocus autocomplete="off" placeholder="Type here.." class="form-control" />
+                        
+                        <span class="input-group-btn">
+                            <button class="btn-primary  btn chatButton" id="sendChat">Send</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<script type="text/javascript">
+
+    $('[data-toggle=offcanvas]').click(function() {
+        $(this).toggleClass('visible-xs text-center');
+        $(this).find('i').toggleClass('glyphicon-chevron-right glyphicon-chevron-left');
+        $('.row-offcanvas').toggleClass('active');
+        $('#lg-menu').toggleClass('hidden-xs').toggleClass('visible-xs');
+        $('#xs-menu').toggleClass('visible-xs').toggleClass('hidden-xs');
+        $('#chatPage').toggleClass('col-xs-10').toggleClass('col-xs-8');
+        $('#btnShow').toggle();
+    });
+
+    var colorStack = {};
+    var lastMsgUid = "";
+    var signInMsg = 0;
+    var timeStamp = Date.today().set({
+                            second: 00,
+                            minute: 00,
+                            hour: 00,
+                            })  ;
+
+    $('#sendChat').prop("disabled", true);
+
+
+    socket.io.reconnect();
+    console.log("Calling user connected;");
+    socket.emit('user connected', {
+        uid: localStorage.getItem('mayday_userId') //localStorage.getItem('mayday_userId')
+    });
+    $('#m').focus();
+    $('#m').on("keyup", action);
+
+    function action() {
+        if ($('#m').val().length > 0 && $('#m').val().trim().length > 0) {
+            $('#sendChat').prop("disabled", false);
+        } else {
+            $('#sendChat').prop("disabled", true);
+        }
+    }
+
+
+
+    $('#chatBox').submit(function() {
+
+        socket.emit('chat message', {
+            uid: localStorage.getItem('mayday_userId'),
+            msg: $('#m').val(),
+            time_id: new Date().toString("yyyy-MM-dd HH:mm:ss")
+        });
+        $('#m').val('');
+        return false;
+    });
+
+
+
+    var lastScrollTop = 0;
+
+    $('#messages').scroll(function(event) {
+        var st = $(this).scrollTop();
+        if (st <= lastScrollTop && signInMsg > 0 && $('#messages').find('.loading')) {
+
+            $('#messages').prepend($('<div>').attr('class', 'loading').append('<i class="fa fa-cog fa-spin fa-2x fa-fw margin-bottom"></i>'));
+            // upscroll code
+
+            socket.emit('chatScrollUp', {
+                msgid: signInMsg
+            });
+
+        }
+        // lastScrollTop = st;
+    });
+
+
+</script>
+

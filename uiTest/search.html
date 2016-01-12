@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:5000/" />
+<title>search1</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">search1</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td>localhost:5000</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=uname</td>
+	<td>sim</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>sim</td>
+	<td>loggedInUser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=pass1</td>
+	<td>rata</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=loginBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Users(current)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='topNav']/ul[2]/li/a</td>
+	<td>${loggedInUser}</td>
+</tr>
+<tr>
+	<td>verifyEval</td>
+	<td>this.browserbot.getUserWindow().localStorage.getItem(&quot;mayday_userId&quot;) </td>
+	<td>${loggedInUser}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='layoutChange']/h1</td>
+	<td>Welcome ${loggedInUser} !</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=searchTxt</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>document.forms['search-form'].elements[0]</td>
+	<td>Search For</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Citizen Name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyAttribute</td>
+	<td>xpath=//li[@id='cName']@class</td>
+	<td>active</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>ke</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/h3</td>
+	<td>glob:*Users*</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th</td>
+	<td>Users</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[2]</td>
+	<td>Status</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[3]</td>
+	<td>Time</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[4]</td>
+	<td>Location</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Citizen Status</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>2</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/h3</td>
+	<td>glob:*Users*</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th</td>
+	<td>Users</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[2]</td>
+	<td>Status</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[3]</td>
+	<td>Time</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[4]</td>
+	<td>Location</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Announcements</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>ts</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/h3</td>
+	<td>Announcement</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th</td>
+	<td>Announcement</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[2]</td>
+	<td>User</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[3]</td>
+	<td>Time</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//div[@id='pageCount']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Public Chat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>he</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/h3</td>
+	<td>Public Chat</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[2]</td>
+	<td>Sender</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[3]</td>
+	<td>Time</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//div[@id='pageCount']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Private Chat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>hi</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/h3</td>
+	<td>Private Chat</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[2]</td>
+	<td>Sender</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[3]</td>
+	<td>Receiver</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/table/thead/tr/th[4]</td>
+	<td>Time</td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>//div[@id='pageCount']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>d</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>css=h3.panel-title</td>
+	<td>Search Results</td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='searchRoom']/div/div/p</td>
+	<td>No Results found!</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Private Chat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Users(current)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Announce(current)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=searchButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Announcements</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Users(current)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=searchTxt</td>
+	<td>t</td>
+</tr>
+<tr>
+	<td>sendKeys</td>
+	<td>id=searchTxt</td>
+	<td>${KEY_ENTER}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>document.forms['search-form'].elements[0]</td>
+	<td>Search For</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=logout</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

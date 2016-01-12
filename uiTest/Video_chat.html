@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:5000/" />
+<title>Video chat ui test</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">New Test</td></tr>
+</thead><tbody>
+<tr>
+	<td>openWindow</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='loginWWrap']/div/div/h3</td>
+	<td>glob:*Welcome to Mayday!*</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=uname</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=pass1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=loginBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Create a new account</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=uname</td>
+	<td>sim</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=pass1</td>
+	<td>rata</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>id=loginBtn</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>link=Home</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Chat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=Private</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>css=#keert &gt; div</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=videoChatShow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=videoChatShow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=localVideoChat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=remoteVideoChat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=videoChatHide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=videoChatHide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='messages']</td>
+	<td>glob:*Video chat ended*</td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=videoChatShow</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='messages']</td>
+	<td>glob:*video chat request Accept or Decline*</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=vc_accept</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=localVideoChat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyElementPresent</td>
+	<td>id=remoteVideoChat</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertElementPresent</td>
+	<td>id=videoChatHide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=videoChatHide</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='messages']</td>
+	<td>glob:*video chat request Accept or Decline*</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>id=vc_decline</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyText</td>
+	<td>//div[@id='messages']</td>
+	<td>glob:*declined the video chat request*</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>css=i.fa.fa-power-off</td>
+	<td></td>
+</tr>
+<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>
